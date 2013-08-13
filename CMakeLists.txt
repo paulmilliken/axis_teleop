@@ -6,6 +6,7 @@ project(axis_teleop)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS axis_camera dynamic_reconfigure rospy std_msgs)
 
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -15,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS axis_camera dynamic_reconfigure rospy st
 ## See http://ros.org/doc/groovy/api/catkin/html/user_guide/setup_dot_py.html
 # catkin_python_setup()
 
+generate_dynamic_reconfigure_options(cfg/JoystickFunctions.cfg)
 #######################################
 ## Declare ROS messages and services ##
 #######################################
@@ -50,7 +52,7 @@ find_package(catkin REQUIRED COMPONENTS axis_camera dynamic_reconfigure rospy st
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES axis_teleop
-#  CATKIN_DEPENDS axis_camera dynamic_reconfigure rospy std_msgs
+  CATKIN_DEPENDS axis_camera dynamic_reconfigure rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -72,7 +74,7 @@ catkin_package(
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(axis_teleop_node axis_teleop_generate_messages_cpp)
+#add_dependencies(teleop_speed_control.py axis_teleop_generate_messages_cpp axis_teleop_gencfg)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(axis_teleop_node
@@ -88,10 +90,10 @@ catkin_package(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+install(PROGRAMS
+  src/teleop_speed_control.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables and/or libraries for installation
 # install(TARGETS axis_teleop axis_teleop_node
@@ -101,11 +103,10 @@ catkin_package(
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+install(DIRECTORY 
+  cfg
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
